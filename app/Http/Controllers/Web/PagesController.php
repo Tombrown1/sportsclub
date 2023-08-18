@@ -16,7 +16,6 @@ use App\Http\Controllers\Controller;
 use App\Models\ClubCategory;
 use App\Models\Gallery;
 use App\Models\PastPresident;
-use App\Models\Testimonial;
 use Illuminate\Support\Facades\Response;
 
 class PagesController extends Controller
@@ -27,20 +26,16 @@ class PagesController extends Controller
         $blog_posts = BlogPost::with('blog_category')->where('deleted', 0)->inRandomOrder()->limit(3)->get();        
         $about = Setting::where('deleted', 0)->find(1);
         $abouts = About::where('deleted', 0)->find(2);
-        $testimonials = Testimonial::where('deleted', 0)->get();
-        $services = Service::with('service_category')->where('deleted', 0)->get();
 
         // return $about;
         $sliders = Slider::where('deleted', 0)->get();
-        return view('site.index', compact('sliders', 'about', 'abouts', 'blog_posts', 'sectioncats', 'testimonials', 'services'));
+        return view('site.index', compact('sliders', 'about', 'abouts', 'blog_posts', 'sectioncats'));
     }
 
     public function about()
     {  
         $about = Setting::where('deleted', 0)->find(1);
         $sectioncats = ClubSection::with('club_category')->where('deleted', 0)->inRandomOrder()->limit(7)->get();
-
-        // return $about;
         return view('site.about', compact('about', 'sectioncats'));
     }
 
@@ -53,10 +48,7 @@ class PagesController extends Controller
 
     public function services()
     {
-        $services = Service::with('service_category')->where('deleted', 0)->get();
-        // return $services;
-        
-         return view('site.services', compact('services'));
+        return view('site.services');
     }
 
     public function viewServices($slug)
@@ -64,8 +56,6 @@ class PagesController extends Controller
         $service = Service::where('deleted', 0)->where('slug', $slug)->first();
         return view('site.serviceview', compact('service'));
     }
-
-   
 
     public function news_event()
     {
@@ -128,23 +118,6 @@ class PagesController extends Controller
         $sectioncats = ClubSection::with('club_category')->where('deleted', 0)->inRandomOrder()->limit(7)->get();
         $past_president = PastPresident::where('deleted', 0)->where('slug', $slug)->first();
         return view('site.view_pst_president', compact('past_president', 'about', 'sectioncats', 'setting', 'blogs'));
-    }
-
-    public function booking()
-    {  
-        $setting = Setting::where('deleted', 0)->find(1);
-        return view('site.booking', compact('setting'));
-    }
-
-    public function technician()
-    {       
-        return view('site.technician');
-    }
-
-    public function testimonial()
-    {
-        $testimonials = Testimonial::where('deleted', 0)->get();
-        return view('site.testimonial', compact('testimonials'));
     }
    
 }

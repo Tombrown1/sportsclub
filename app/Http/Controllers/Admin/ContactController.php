@@ -31,6 +31,7 @@ class ContactController extends Controller
             'message' => 'required|string',
         ]);
 
+        // return $request;
 
         $addContact = new Contact;
 
@@ -42,7 +43,7 @@ class ContactController extends Controller
 
         $addContact->save();
 
-        return back()->with('success', 'Your contact details has been sent successfully, we will get back to you soon!');
+        return back()->with('success', 'Your contact details has been save successfully, we will gwt back to you soon!');
     }
 
     public function deleteContact($id)
